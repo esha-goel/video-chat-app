@@ -12,7 +12,7 @@ const SidebarChat = ({id,name,addNewChat}) => {
     useEffect(() => {
         // setSeed(Math.floor(Math.random() * 5000));
         setSeed(id);
-    },[]);
+    },[id]);
 
     const createChat = () => {
         const roomName = prompt("Please enter room name");
