@@ -1,3 +1,5 @@
+import firebase from "firebase";
+
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAbj__oB-lk-6oJTcNO5Kk27aIih5piErM",
@@ -8,3 +10,11 @@ const firebaseConfig = {
   appId: "1:205757451114:web:48ec8bc4f4244d145f3313",
   measurementId: "G-5Z9BEVMZF2"
 };
+
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const db = firebaseApp.firestore(); // DataBase
+const auth = firebaseApp.auth(); //Authorisation
+const provider = new firebase.auth.GoogleAuthProvider(); // Google Authorisation
+
+export {auth,provider};
+export default db;
