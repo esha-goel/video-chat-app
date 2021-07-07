@@ -9,16 +9,27 @@ import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import { useParams } from 'react-router-dom';
 import './Chat.css';
 import db from './firebase';
+import firebase from 'firebase';
+import {useStateValue} from "./StateProvider";
+
 
 const Chat = () => {
     const [input,setInput] = useState('');
     const [seed,setSeed] = useState('');
     const {roomId} = useParams();
     const [roomName,setRoomName] = useState('');
+    const [messages,setMessages] = useState([]);
+    const [{user}, dispatch] =  useStateValue();
 
     useEffect(() => {
         if(roomId){
             db.collection("rooms").doc(roomId).onSnapshot(snapshot => setRoomName(snapshot.data().name))
+            
+            db.collection("rooms").doc(roomId).collection("messages").orderBy('timestamp','asc').onSnapshot( snapshot => {
+                setMessages(snapshot.docs.map( doc => (
+                    doc.data()
+                )))
+            });
         }
     }, [roomId]); 
     // Everytime roomId changes it runs this
@@ -31,6 +42,14 @@ const Chat = () => {
 
     const sendMessage = (e) => {
         e.preventDefault();
+
+        console.log(db.collection("rooms").doc(roomId).collection("messages"));
+        db.collection("rooms").doc(roomId).collection("messages").add({
+            message:input,
+            name:user.displayName, //from google Auth for sender
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
         console.log(input);
         setInput('');
     }
@@ -59,21 +78,16 @@ const Chat = () => {
             </div>
 
             <div className="chat__body">
-                <div className="chat__message">
-                    <div className="chat__messageInfo">
-                        <span className="chat__name">Esha Goellllll</span>
-                        <span className="chat__timestamp">20:40</span>
+                {messages.map( message => (
+                    <div className={`chat__message ${message.name === user.displayName && 'chat__receiver'}`}>
+                        <div className="chat__messageInfo">
+                            <span className="chat__name">{message.name}</span>
+                            <span className="chat__timestamp">{new Date(message.timestamp?.toDate()).toUTCString()}</span>
+                        </div>
+                        <p>{message.message}</p>
                     </div>
-                    <p>Hey Guys</p>
-                </div>
+                ))}
                 {/* true in condition will be a condition from database */}
-                <div className={`chat__message ${true && 'chat__receiver'}`}>
-                    <div className="chat__messageInfo">
-                        <span className="chat__name">Esha Goel</span>
-                        <span className="chat__timestamp">20:40</span>
-                    </div>
-                    <p>Hey Guys</p>
-                </div>
 
             </div>
 

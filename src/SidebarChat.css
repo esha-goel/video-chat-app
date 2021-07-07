@@ -22,3 +22,8 @@
 .sidebarChat__info > p{
     font-size: 15px;
 }
+
+a{
+    text-decoration: none !important;
+    color:#D2D2D2;
+}
