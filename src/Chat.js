@@ -20,6 +20,7 @@ const Chat = () => {
     const [roomName,setRoomName] = useState('');
     const [messages,setMessages] = useState([]);
     const [{user}, dispatch] =  useStateValue();
+    const [URL,setURL] = useState("https://ancient-savannah-98688.herokuapp.com/");
 
     useEffect(() => {
         if(roomId){
@@ -43,15 +44,24 @@ const Chat = () => {
     const sendMessage = (e) => {
         e.preventDefault();
 
-        console.log(db.collection("rooms").doc(roomId).collection("messages"));
         db.collection("rooms").doc(roomId).collection("messages").add({
             message:input,
             name:user.displayName, //from google Auth for sender
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        console.log(input);
         setInput('');
+    }
+
+    const startVideoCall = () => {
+        // setInput(`Join the Video Call <a>${URL}${roomId}</a>`);
+        db.collection("rooms").doc(roomId).collection("messages").add({
+            message:`Join the Video Call <a href = ${URL}${roomId}>${URL}${roomId}</a>`,
+            name:user.displayName, //from google Auth for sender
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        // setInput('');
+        window.open(`${URL}${roomId}`, "_blank")
     }
 
     return (
@@ -68,7 +78,7 @@ const Chat = () => {
                     <IconButton color='inherit'>
                         <SearchOutlined/>
                     </IconButton>
-                    <IconButton color='inherit'>
+                    <IconButton color='inherit' onClick={startVideoCall}>
                         <VideoCallOutlinedIcon/>
                     </IconButton>
                     <IconButton color='inherit'>
