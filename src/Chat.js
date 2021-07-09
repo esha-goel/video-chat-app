@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState,useEffect, useRef } from 'react';
 import { Avatar, IconButton } from '@material-ui/core';
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import {SearchOutlined} from "@material-ui/icons";
@@ -21,6 +21,14 @@ const Chat = () => {
     const [messages,setMessages] = useState([]);
     const [{user}] =  useStateValue();
     const [URL] = useState("https://ancient-savannah-98688.herokuapp.com/");
+
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    };
+    
+    useEffect(scrollToBottom, [messages]);
 
     useEffect(() => {
         if(roomId){
@@ -105,7 +113,7 @@ const Chat = () => {
                     </div>
                 ))}
                 {/* true in condition will be a condition from database */}
-
+                <div ref={messagesEndRef} />
             </div>
 
             <div className="chat__footer">
