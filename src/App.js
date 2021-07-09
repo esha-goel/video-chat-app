@@ -7,9 +7,11 @@ import Login from './Login';
 import { useStateValue } from './StateProvider';
 
 
+
 function App() {
   // const [user,setUser] = useState(null);
-  const [{user},dipatch] = useStateValue();
+  const [{user}] = useStateValue();
+
 
   return (
     <div className="app">
@@ -18,12 +20,16 @@ function App() {
       ):(
         <div className="app__body">
           <Router>
-            <Sidebar />
             <Switch>
+              <Route path="/chats/:roomId">
+                <Chat />
+              </Route>
               <Route path="/rooms/:roomId">
+                <Sidebar />
                 <Chat />
               </Route>
               <Route path="/">
+                <Sidebar />
               </Route>
             </Switch>
           </Router>

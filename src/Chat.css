@@ -101,8 +101,28 @@
 
 .chat__footer>form>input{
     flex: 1;
+    background-color: #282222;
+    opacity: 0.8;
+    border: none;
+    color: #D2D2D2;
+    padding: 5px;
 }
 
 .chat__footer>form>button{
     display: none;
+}
+
+@media screen and (max-width: 300px) {
+
+    .chat{
+        flex: 1;
+    }
+
+    .chat__header{
+        display: none;
+    }
+    
+    .chat__message{
+        max-width: 75%;
+    }
 }

@@ -6,7 +6,7 @@ import VideoCallOutlinedIcon from '@material-ui/icons/VideoCallOutlined';
 import MicIcon from '@material-ui/icons/Mic';
 import SendIcon from '@material-ui/icons/Send';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './Chat.css';
 import db from './firebase';
 import firebase from 'firebase';
@@ -19,8 +19,8 @@ const Chat = () => {
     const {roomId} = useParams();
     const [roomName,setRoomName] = useState('');
     const [messages,setMessages] = useState([]);
-    const [{user}, dispatch] =  useStateValue();
-    const [URL,setURL] = useState("https://ancient-savannah-98688.herokuapp.com/");
+    const [{user}] =  useStateValue();
+    const [URL] = useState("https://ancient-savannah-98688.herokuapp.com/");
 
     useEffect(() => {
         if(roomId){
@@ -47,7 +47,8 @@ const Chat = () => {
         db.collection("rooms").doc(roomId).collection("messages").add({
             message:input,
             name:user.displayName, //from google Auth for sender
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            isLink:false
         });
 
         setInput('');
@@ -56,9 +57,10 @@ const Chat = () => {
     const startVideoCall = () => {
         // setInput(`Join the Video Call <a>${URL}${roomId}</a>`);
         db.collection("rooms").doc(roomId).collection("messages").add({
-            message:`Join the Video Call <a href = ${URL}${roomId}>${URL}${roomId}</a>`,
+            message:`Join the Video Call ${URL}${roomId}`,
             name:user.displayName, //from google Auth for sender
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            isLink:true
         });
         // setInput('');
         window.open(`${URL}${roomId}`, "_blank")
@@ -94,7 +96,12 @@ const Chat = () => {
                             <span className="chat__name">{message.name}</span>
                             <span className="chat__timestamp">{new Date(message.timestamp?.toDate()).toUTCString()}</span>
                         </div>
-                        <p>{message.message}</p>
+
+                        {message.isLink && <Link to={{ pathname: `${URL}${roomId}` }} target="_blank" >
+                            <p>{message.message}</p>
+                        </Link>}
+
+                        {!message.isLink && <p>{message.message}</p>}
                     </div>
                 ))}
                 {/* true in condition will be a condition from database */}

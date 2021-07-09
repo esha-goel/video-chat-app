@@ -10,6 +10,7 @@ const SidebarChat = ({id,name,addNewChat}) => {
     const [seed,setSeed] = useState('');
 
     const [messages, setMessages] = useState("");
+    // const [roomName,setRoomName] = useState('');
     
     useEffect(() => {
         if(id){
@@ -24,8 +25,26 @@ const SidebarChat = ({id,name,addNewChat}) => {
         setSeed(id);
     },[id]);
 
+    // const addRoom = (e) => {
+    //     e.preventDefault();
+    //     if(roomName)
+    //     {
+    //         // do database thing
+    //         db.collection("rooms").add({
+    //             name:roomName
+    //         });
+    //     }
+    //     // document.getElementsByClassName('sidebarChat')[0].innerHTML = '<div onClick=createChat><h2>Add new Chat</h2></div>'
+    //     setRoomName('');
+    // }
+
     const createChat = () => {
-        const roomName = prompt("Please enter room name");
+        // document.getElementsByClassName('sidebarChat')[0].innerHTML = '<form><input id="add__input" placeholder="Enter room name" type="text" /><button id="add__room" type="submit" >Add</button></form>'
+
+        // document.getElementById('add__input').value = roomName;
+        // document.getElementById('add__input').onchange = e => setRoomName(e.target.value);
+        // document.getElementById('add__room').onClick = addRoom;
+        const roomName = prompt('Enter room name');
 
         if(roomName)
         {
