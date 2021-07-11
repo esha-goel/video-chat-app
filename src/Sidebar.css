@@ -1,3 +1,4 @@
+
 .sidebar{
     flex: 0.3;
     display: flex;
@@ -9,6 +10,7 @@
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    border-bottom: 1px solid #454040;
 }
 
 .sidebar__header__right{
@@ -49,3 +51,4 @@
 .sidebar__chats::-webkit-scrollbar {
     display: none;
   }
+

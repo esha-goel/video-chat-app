@@ -4,9 +4,10 @@ import SidebarChat from './SidebarChat';
 import {Avatar, IconButton} from "@material-ui/core";
 import ChatIcon from '@material-ui/icons/Chat';
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
+// import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import db from './firebase';
 import { useStateValue } from "./StateProvider";
+import { Alert } from "react-st-modal";
 
 
 const Sidebar = () => {
@@ -37,19 +38,23 @@ const Sidebar = () => {
                 <Avatar src={user?.photoURL}/>
                 <div className="sidebar__header__right">
                     {/* IconButton adds effect */}
-                    <IconButton color='inherit'> 
+                    <IconButton onClick={async () => {
+          await Alert('Pending Feature', 'Not implemented');
+        }} color='inherit'> 
                         <ChatIcon />
                     </IconButton> 
-                    <IconButton color='inherit'> 
+                    <IconButton onClick={async () => {
+          await Alert('Pending Feature', 'Not implemented');
+        }} color='inherit'> 
                         <MoreVertIcon />
                     </IconButton> 
                 </div>
             </div>
 
-            <div className="sidebar__search">
+            {/* <div className="sidebar__search">
                 <SearchOutlinedIcon />
                 <input type="text" placeholder="Search for a chat"/>
-            </div>
+            </div> */}
 
             <div className="sidebar__chats">
                 {/* SidebarChat */}

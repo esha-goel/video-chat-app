@@ -11,6 +11,8 @@ import './Chat.css';
 import db from './firebase';
 import firebase from 'firebase';
 import {useStateValue} from "./StateProvider";
+import { Alert } from 'react-st-modal';
+import Picker from 'emoji-picker-react';
 
 
 const Chat = () => {
@@ -52,12 +54,15 @@ const Chat = () => {
     const sendMessage = (e) => {
         e.preventDefault();
 
-        db.collection("rooms").doc(roomId).collection("messages").add({
-            message:input,
-            name:user.displayName, //from google Auth for sender
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            isLink:false
-        });
+        if(input)
+        {
+            db.collection("rooms").doc(roomId).collection("messages").add({
+                message:input,
+                name:user.displayName, //from google Auth for sender
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                isLink:false
+            });
+        }
 
         setInput('');
     }
@@ -74,6 +79,20 @@ const Chat = () => {
         window.open(`${URL}${roomId}`, "_blank")
     }
 
+    const onEmojiClick = (event, emojiObject) => {
+        // console.log(input + emojiObject.emoji);
+        setInput(input + emojiObject.emoji);
+        document.getElementsByClassName('chat__picker')[0].style.display="none";
+    }
+    
+    const openPicker = () => {
+        let elem = document.getElementsByClassName('chat__picker')[0];
+        if(elem.style.display==="block")
+            elem.style.display = "none";
+        else
+            elem.style.display = "block";
+    }
+
     return (
         <div className="chat">
             
@@ -85,13 +104,17 @@ const Chat = () => {
                 </div>
 
                 <div className="chat__headerRight">
-                    <IconButton color='inherit'>
+                    <IconButton color='inherit' onClick={async () => {
+          await Alert('Pending Feature', 'Not implemented');
+        }}>
                         <SearchOutlined/>
                     </IconButton>
                     <IconButton color='inherit' onClick={startVideoCall}>
                         <VideoCallOutlinedIcon/>
                     </IconButton>
-                    <IconButton color='inherit'>
+                    <IconButton color='inherit' onClick={async () => {
+          await Alert('Pending Feature', 'Not implemented');
+        }}>
                         <MoreVertIcon/>
                     </IconButton>
                 </div>
@@ -116,6 +139,9 @@ const Chat = () => {
                 <div ref={messagesEndRef} />
             </div>
 
+            <div className="chat__picker">
+                <Picker onEmojiClick={onEmojiClick} /> 
+            </div>
             <div className="chat__footer">
                 <form>
                     <input value={input} onChange={e => setInput(e.target.value)} placeholder="Type your message"type="text" />
@@ -123,10 +149,11 @@ const Chat = () => {
                 </form>
                 <div className="chat__footerIcons">
                     <div className="chat__footerExtra">
-                        <IconButton color = "inherit">
+                        <IconButton color = "inherit" onClick={openPicker}>
                             <InsertEmoticonIcon />
                         </IconButton>
-                        <IconButton color = "inherit">
+                        {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                        <IconButton color = "inherit" onClick={async () => {await Alert('Pending Feature', 'Not implemented');}}>
                             <MicIcon />
                         </IconButton>
                     </div>

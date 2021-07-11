@@ -126,3 +126,7 @@
         max-width: 75%;
     }
 }
+
+.chat__picker{
+    display: none;
+}
