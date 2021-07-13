@@ -7,11 +7,16 @@
 }
 
 .login_container{
-    padding: 100px;
+    padding: 80px;
     text-align: center;
     background-color: #343434;
     border-radius: 10px;
     box-shadow: 0 1px 3px rgb(36 28 28), 0 1px;
+}
+.login_container > img{
+    object-fit: contain;
+    height: 120px;
+    margin-bottom: 40px;
 }
 
 .login_container > button{
@@ -31,6 +36,10 @@
         padding: 20px 45px;
     }    
 
+    .login_container>img{
+        height:70px;
+        margin-bottom: 25px;
+    }
     .login_container>button{
         margin-top: 20px;
     }

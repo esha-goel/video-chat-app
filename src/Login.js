@@ -3,6 +3,7 @@ import { auth, provider } from './firebase';
 import './Login.css';
 import { actionTypes } from './reducer';
 import { useStateValue } from './StateProvider';
+import Logo from './logo.png';
 
 const Login = () => {
 
@@ -21,8 +22,9 @@ const Login = () => {
     return (
         <div className="login">
             <div className="login_container">
+                <img src={Logo} alt='website logo' />
                 <div className="login_text">
-                    <h1>Sign in to Continue</h1>
+                    <h1>Welcome to Videoizh</h1>
                 </div>
                 <Button type="submit" onClick={signIn}>Sign in With Google</Button>
            </div>
